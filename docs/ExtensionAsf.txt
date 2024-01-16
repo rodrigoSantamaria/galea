@@ -1,0 +1,141 @@
+cabecera de fichero: "analgamfilev1.0" cadena de 15 caracteres
+
+//*******************************
+NUEVO: 
+char: tipo de espectro:
+	0 -> espectro de muestra
+	1 -> espectro de fondo
+[En el caso de que sea un espectro de fondo, a continuación
+int: tamaño en caracteres del nombre de la base de datos de fondo usada como referencia
+char *: nombre de la base de datos (.fbd) usada como referencia
+]
+
+unsigned short: tiempo de medición del espectro en segundos
+*******************************//
+
+unsigned short: numero de canales de los cuales se compone el fichero
+
+char: tipo de dato:
+				 0 -> los canales son unsigned short
+				 1 -> los canales son unsigned int
+				 
+#*(unsigned short | unsigned int): los valores de los canales en el formato indicado
+
+int: Estado actual de trabajo.
+
+char: Bloque de trabajo:
+				0 -> final de datos
+				1 -> datos de precalibracion
+				2 -> datos del continuo
+				3 -> datos de calibracion
+				4 -> estado de visualizacion
+
+
+---> Datos de precalibracion <---
+int: numero de elementos en la lista de precalibracion
+	#*(double, int, int): cada elemento de la lista con los datos energia, limite inferior y limite superior
+		(#>2)(double, double, double, double): si hay mas de dos elementos en la lista
+					entonces hay ya hecha una precalibracion. Los siguientes cuatro
+					valores son afwhg, bfwhg, enp1 y enp2.
+
+
+---> Datos del continuo <---
+int: numero de elementos en la lista del continuo
+	#*(double, double, double, int, int): cada elemento de la lista con los datos cofo, copi, manphe, limite inferior y limite superior
+bool: estado de la precontinuo (busqueda terminada)
+	int: minimo del intervalo de trabajo
+	int: maximo del intervalo de trabajo
+	(el numero de canales de fondo y picos es: numCanales/8 + 1)
+	#*(unsigned char): cada uno de los bytes que compone la matriz que indica los canales de fondo
+							 (1 es, 0 no es)
+	#*(unsigned char): cada uno de los bytes que compone la matriz que indica los canales de pico
+							 (1 es, 0 no es)
+
+	int: numero de picos encontrados
+	int: numero de elementos en la lista de picos
+	#*(int, int, int): minimo del intervalo, maximo del intervalo y numero de picos en ese intervalo
+		#*(double): maximo de cada pico de ese intervalo
+	
+	bool: estado del ajuste (ajuste terminado)
+		int: numero de nodos del spline de ajuste
+		double: valor de ChiSq del ajuste del continuo
+		(el numero de elementos es el numero de canales del espectro)
+		#*(float, float): valor del continuo y su sigma en ese canal
+
+
+---> Datos de calibracion <---
+int: numero de elementos en la lista de calibraciones
+	#*(int, tAjustePico): numero de intervalo y ajuste del pico de ese intervalo
+
+	bool: calibracion de energia
+		(double, double, double): parametros de ajuste de la energia enp1, enp2 y enp3
+		(double3x3): matriz de covarianza de la calibracion
+
+	bool: calibracion de parametros de forma
+		(double, double): parametros de ajuste de la FWHM afwhg, bfwhg
+		(double2x2): matriz de covarianza de la calibracion
+		(double, double): parametros de ajuste de la tau atau, btau
+		(double2x2): matriz de covarianza de la calibracion
+
+
+---> Datos de calibracion <---
+int: numero de elementos en la lista de analisis
+	#*(int): numero de intervalo
+		(el numero de elementos es el numero de picos en ese intervalo)
+		#*(tAjustePico): ajuste de cada pico del intervalo
+//***************NOTA: Ahora tAjustePico tiene muchos valores nuevos, en concreto:
+	bool eficienciaCalculada;//Indica si el pico tiene una eficiencia calcualda
+	bool ldCalculado;//indica si el pico tiene unos límites de detección calculados
+	bool analizado;  //indica si el pico tiene asignados valores a la actividad,
+
+	// Datos de análisis
+	double ld; 				//Límite de detección para este pico
+	double lc; 				//Límite de decisión para este pico
+	double eficiencia;		//Eficiencia para este pico
+	double sigmaEficiencia;	//Varianza de la eficiencia para este pico
+	double correccion;		//Corrección de la eficiencia
+	double sigmaCorreccion;	//Incertidumbre de la corrección de la eficiencia
+	double areaSinFondo;	//Área del pico sin contar el fondo del detector
+	double incerAreaSinFondo;//Incertidumbre del área del pico sin contar la del fondo del detector (?)dpb
+	double actividad;		//Actividad del pico
+	double sigmaActividad;	//Incertidumbre de la actividad
+	double mda;				//Mínima Actividad Detectable del pico
+	double mdaPadre;		//Mínima Actividad Detectable del padre del pico
+	//
+//****************************************************
+
+---> Estado de visualizacion <---
+tEstadoVisualizacion: estructura de visualizacion (ver trabajoEst.h)
+
+
+---> Cierre de fichero <---
+char: con valor 0
+
+
+
+
+**************  FICHERO DE CALIBRACION  ****************
+cabecera de fichero: "analgamfilev1.0" cadena de 15 caracteres
+(double, double, double): parametros de ajuste de la energia enp1, enp2 y enp3
+(double3x3): matriz de covarianza de la calibracion
+(double, double): parametros de ajuste de la FWHM afwhg, bfwhg
+(double2x2): matriz de covarianza de la calibracion
+(double, double): parametros de ajuste de la tau atau, btau
+(double2x2): matriz de covarianza de la calibracion
+char: con valor 0
+
+
+**************  FICHERO DE CALIBRACION EN ENERGIA  ****************
+cabecera de fichero: "analgamfilev1.0" cadena de 15 caracteres
+(double, double, double): parametros de ajuste de la energia enp1, enp2 y enp3
+(double3x3): matriz de covarianza de la calibracion
+char: con valor 0
+
+
+**************  FICHERO DE CALIBRACION EN PARAMETROS DE FORMA ****************
+cabecera de fichero: "analgamfilev1.0" cadena de 15 caracteres
+(double, double): parametros de ajuste de la FWHM afwhg, bfwhg
+(double2x2): matriz de covarianza de la calibracion
+(double, double): parametros de ajuste de la tau atau, btau
+(double2x2): matriz de covarianza de la calibracion
+char: con valor 0

@@ -1,0 +1,6 @@
+pro : conversor.o cLaraBD.o ficheros.o math1.o;
+		c++ -O -o pro  conversor.o cLaraBD.o ficheros.o math1.o
+
+conversor.o cLaraBD.o ficheros.o math1.o:
+
+

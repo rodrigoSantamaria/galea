@@ -1,0 +1,32 @@
+//Fichero encolumnado de la siguiente manera:
+
+Columna1-> double: energía en keV. Las filas aparecen ordendas por energías
+Columna2-> char *: nombre de la reacción. Aquellas emisiones no asociadas
+					a ninguna reacción aparecen con "?"
+Columna3..i..n-> int(int): número de cuentas que aparecen en el fondo i para esa
+					emisión. Si no se identificó pico a esa energía no tendremos
+					cuentas, aparecerá en su lugar la cadena "----"
+					
+En la última fila aparece la cadena "EOF"
+
+//**********************************************************
+Pequeño ejemplo (Una sola medición de fondo):
+220,151		?								51(16642469)
+238,632		212Pb							----	
+258,075		?								297(2488)
+295,207		214Pb							----	
+331,770		?								564(95)	
+338,32		228Ac							----	
+351,925		214Pb							----	
+402,578		87Kr							14281(178)
+446,388		?								494(88)	
+452,47		?								----	
+472,835		?								78(55)	
+477,6		7Be								----	
+511,0		Aniquilación					----	
+532,244		?								90(297)	
+544,8		?								----	
+550,271		?								68(37)	
+569,6		207Pb(n,n',f)207Pb				----	
+EOF
+//***********************************************************

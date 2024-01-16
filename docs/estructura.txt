@@ -1,0 +1,175 @@
+CABECERA
+Fondo	[0|1]
+[
+Si Fondo=1
+	TamañoNombreFicheroFondo	int
+	NombreFicheroFondo			char*
+]
+Tiempo de medición	int
+Número de canales	int
+[
+Si el canal más grande cabe en un short
+for(i=Número de canales)
+	canal[i]	short
+]
+[
+Si no
+for(i=Número de canales)
+	canal[i]	int
+]
+Estado de trabajo	[ESTADO_INICIAL = 0,ESTADO_PRECALIBRACION = 1,ESTADO_CONTINUO = 2,
+					ESTADO_CALIBRACION = 3,	ESTADO_ANALISIS = 4, ESTADO_ACTIVIDAD = 5]
+[Si LISTA_PRECALIBRACIóN
+BLOQUE_PRECALIBRACIÓN
+Para cada elemento de la lista
+	Energía		double
+	LímInferior	int
+	LimSuperior	int
+Si PRECALIBRACIÓN
+	afwhg	double
+	bfwhg	double
+	enp1	double
+	enp2	double
+]
+[Si LISTA_CONTINUO
+BLOQUE_CONTINUO
+Para cada elemento de la lista de intervalos de continuo
+	Cofo		double
+	Copi		double
+	Manphe		double
+	LimInferior	int
+	LimSuperior	int
+Si PRECONTINUO
+	1
+	minInterv	int
+	maxInterv	int
+	para cada canal de fondo
+		fondo	int
+	para cada canal de fondo
+		pico	int
+	número de intervalos con picos encontrados
+	para cada intervalo de la lista de picos
+		limInferior		int
+		limSuperior		int
+		numeroDeSubpicos	int
+		para cada subpico
+			maximo		int
+	Si CONTINUO
+		1
+		número de nodos de spline del ajuste	int
+		chi cuadrado del ajuste					double
+		para cada canal
+			continuo		int
+			sigmaContinuo	int
+	Si no
+		0
+Si no
+	0
+]
+[
+Si LISTA_CALIBRACIÓN | trabajo en CALIBRACIÓNENERGíA | trabajo en CALIBRACIÓNFORMA
+BLOQUE_CALIBRACIÓN
+AnálisisEficiencia	bool
+AnálisisActividad	bool
+AnalisisLD			bool
+para cada elemento de la lista
+	{
+	centroide		double (todos)
+	sigCentroide
+	anchura
+	sigAnchura
+	tau
+	sigTau
+	Ytau
+	sigYtau
+	P
+	sigP
+	YP
+	sigYP
+	sigTauYtau
+	SigPYP
+	covar[4][4]
+	inicializado	bool
+	ajustado		bool
+	calibrado		bool
+	identificado	bool
+	si IDENTIFICADO
+		numero de emisiones	int
+		para cada emisión
+			energía		double
+			codElemento	double
+	eficienciaCalculada bool
+	si EFICIENCIA_CALCULADA
+		dimensionMatEfi	int
+		parametrosEficiencia[dimensionMatEfi]	double
+	ldCalculado	bool
+	analizado	bool
+	ld			double (todos)
+	lc
+	eficiencia
+	sigmaEficiencia
+	correccion
+	sigmaCorreccion
+	area
+	incerArea
+	areaSinFondo
+	incerAreaSinFondo
+	actividad
+	sigmaActividad
+	mda
+	mdaPadre
+	}------>datos del ajuste*
+calibracionEnergia	bool
+si CALIBRACIÓNENERGíA
+	enp1	double
+	enp2	double
+	enp3	double
+	covarEnergia[4][4]	double
+calibracionForma	bool
+si CALIBRACIÓNFORMA
+	afwhg
+	bfwhg
+	covarSigma[3][3]
+	atau
+	btau
+	covarTau[3][3]
+	ares
+	bres
+	covarRes[3][3]
+]
+[
+Si LISTA_ANALISIS
+BLOQUE_ANALISIS
+Analisis	bool
+numElementos de listaAnalisis	int
+para cada elemento de listaAnalisis
+	numeroIntervalo	int
+	datos del ajuste*
+]
+[Si ANALISIS_ACTIVIDAD | ANALISIS_EFICIENCIA | ANALISIS_LD
+BLOQUE_ACTIVIDAD
+dimensionMatEfi	int
+matrizEficiencia[dimensionMatEfi][dimensionMatEfi]	double
+num1	int
+num2	int
+matrizActividad[num1][num2]	double
+]	
+[
+BLOQUE_VISUALIZACIÓN
+dibujarCanalesDeContinuo	[-1|0]
+dibujarCanalesDePico		[-1|0]
+dibujarLineaDeContinuo		[-1|0]
+dibujarRestoDeCanales		[-1|0]
+dibujarCanalesDeContinuo	[-1|0]
+dibujarEscala				[-1|0]
+autoEscalar					[-1|0]
+dibujarVentanaDatos			[-1|0]
+aplicarAutoZoomCalibración	[-1|0]
+dibujarAjustesCalibración	[-1|0]
+dibujarAjustesParcialesAnálisis	[-1|0]
+dibujarAjustesTotalesAnálisis	[-1|0]
+aplicarAutoZoomAnálisis			[-1|0]
+]
+[
+BLOQUE_CIERRE
+]

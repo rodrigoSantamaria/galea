@@ -1,0 +1,29 @@
+
+[filenumbers]
+0=1
+
+[filemarkers]
+0=
+
+[executer]
+RunInTerminal=true
+
+[Project State]
+clean before build=false
+
+[filelist]
+0=/home/rodrigo/Analgam/makefile
+
+[File View]
+filter.file.unmatch=*.so *.o *.a *.la
+filter.file.ignore.hidden=0
+filter.dir.ignore.hidden=0
+
+[Project Tree]
+0=0
+
+[File Tree]
+0=0
+
+[executer args]
+0=Galea
